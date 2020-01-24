@@ -1,5 +1,7 @@
 package main;
 
+import command.AbstractCommand;
+import command.CommandManager;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
@@ -9,16 +11,27 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 
-public class Main extends ListenerAdapter {
+public class JarvisBot extends ListenerAdapter {
 
+    // PROD TOKEN
     // https://discordapp.com/developers/applications/669481253199675393/bots
-    private static final String TOKEN = "NjY5NDgxMjUzMTk5Njc1Mzkz.Xigh-Q.eSzvNmUpgZN6PH4Hzf0XqTFyNoI";
+//    private static final String TOKEN = "NjY5NDgxMjUzMTk5Njc1Mzkz.Xigh-Q.eSzvNmUpgZN6PH4Hzf0XqTFyNoI";
+    // DEV TOKEN
+    private static final String TOKEN = "NjY5NTg0MDc3MjU4NDg5ODc5.XinaXQ.qbcw5qYA67AtEelWu9l0-rAiY-g";
 
-    public static void main(String[] args) throws LoginException {
+    private CommandManager commandManager;
+
+    private JarvisBot() {
+        this.commandManager = new CommandManager();
+    }
+
+    private void start() throws LoginException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         builder.setToken(TOKEN);
-        builder.addEventListeners(new Main());
+        builder.addEventListeners(new JarvisBot());
+        builder.build();
     }
+
 
     @Override
     public void onMessageReceived(final MessageReceivedEvent event) {
@@ -41,23 +54,16 @@ public class Main extends ListenerAdapter {
         final String commandName = commandLine[0];
         final String[] commandArgs = Arrays.copyOfRange(commandLine, 1, commandLine.length);
 
-        switch (commandName) {
-            case "/autokick":
-                autokick(event.getGuild(), event.getChannel(), event.getMember(), commandArgs);
-                break;
-            default:
-                System.err.println("Unknown command " + commandName);
-                break;
-        }
-    }
-
-    private void autokick(final Guild guild, final MessageChannel messageChannel, final Member member,
-                          final String[] commandArgs) {
-        if (member.isOwner()) {
-            messageChannel.sendMessage("Impossible de kick le propriétaire du serveur").complete();
+        final AbstractCommand abstractCommand = commandManager.getCommands().get(commandName);
+        if (abstractCommand != null) {
+            abstractCommand.execute(event, commandArgs);
         } else {
-            guild.kick(member).complete();
+            System.err.println("Unknown command " + commandName);
         }
     }
 
+    public static void main(String[] args) throws LoginException {
+        final JarvisBot bot = new JarvisBot();
+        bot.start();
+    }
 }

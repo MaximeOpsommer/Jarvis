@@ -4,7 +4,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.1'
 }
 
-mainClassName = "Main"
+mainClassName = "main.JarvisBot"
 
 group 'maxime-opsommer'
 version '1.0-SNAPSHOT'
@@ -17,6 +17,11 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'junit:junit:4.12'
     compile 'net.dv8tion:JDA:4.1.0_100'
+    compile 'org.glassfish.jersey.core:jersey-client:2.30'
+    compile 'org.glassfish.jersey.inject:jersey-hk2:2.28'
+//    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.30'
+    compile 'org.json:json:20180130'
+
 }
