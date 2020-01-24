@@ -1,5 +1,6 @@
 package command;
 
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,11 +52,15 @@ public class LolRandomCompCommand extends AbstractCommand {
             addRandomChampion(lane, championListByLane.get(lane));
         }
 
-        System.out.println(String.format("%s: %s", TOP, randomComp.get(TOP)));
-        System.out.println(String.format("%s: %s", JUNGLE, randomComp.get(JUNGLE)));
-        System.out.println(String.format("%s: %s", MID, randomComp.get(MID)));
-        System.out.println(String.format("%s: %s", BOT, randomComp.get(BOT)));
-        System.out.println(String.format("%s: %s", SUPPORT, randomComp.get(SUPPORT)));
+        final String message = String.format("%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s",
+                TOP, randomComp.get(TOP),
+                JUNGLE, randomComp.get(JUNGLE),
+                MID, randomComp.get(MID),
+                BOT, randomComp.get(BOT),
+                SUPPORT, randomComp.get(SUPPORT));
+
+        final MessageChannel channel = event.getChannel();
+        channel.sendMessage(message).queue();
     }
 
     private void initChampionListListByRole(final String json) {
