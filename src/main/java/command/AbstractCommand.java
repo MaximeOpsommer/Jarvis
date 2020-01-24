@@ -12,7 +12,7 @@ public abstract class AbstractCommand {
 
     public abstract String getUsage();
 
-    String getHelp() {
+    public String getHelp() {
         return String.format("%s\n%s", getDescription(), getUsage());
     }
 

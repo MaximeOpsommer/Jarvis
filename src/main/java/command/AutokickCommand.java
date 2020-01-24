@@ -29,10 +29,6 @@ public class AutokickCommand extends AbstractCommand {
         final MessageChannel messageChannel = event.getChannel();
         final Guild guild = event.getGuild();
 
-        if (commandArgs.length == 1 && "help".equals(commandArgs[0])) {
-            messageChannel.sendMessage(getHelp()).queue();
-        }
-
         if (commandArgs.length > 1) {
             messageChannel.sendMessage(wrongUsageOfCommand()).queue();
             return;
