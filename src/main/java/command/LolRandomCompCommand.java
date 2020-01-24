@@ -84,30 +84,28 @@ public class LolRandomCompCommand extends AbstractCommand {
     }
 
     private void initChampionListByLane() {
-        final HashSet<String> champions = new HashSet<>();
+        HashSet<String> champions = new HashSet<>();
         champions.addAll(championListByRole.get(LolRole.FIGHTER));
         champions.addAll(championListByRole.get(LolRole.MAGE));
         champions.addAll(championListByRole.get(LolRole.TANK));
-        championListByLane.put("TOP", champions);
+        championListByLane.put(TOP, champions);
 
-        champions.clear();
+        champions = new HashSet<>();
         champions.addAll(championListByRole.get(LolRole.ASSASSIN));
         champions.addAll(championListByRole.get(LolRole.FIGHTER));
         champions.addAll(championListByRole.get(LolRole.TANK));
-        championListByLane.put("JUNGLE", champions);
+        championListByLane.put(JUNGLE, champions);
 
-        champions.clear();
+        champions = new HashSet<>();
         champions.addAll(championListByRole.get(LolRole.ASSASSIN));
         champions.addAll(championListByRole.get(LolRole.MAGE));
-        championListByLane.put("MID", champions);
+        championListByLane.put(MID, champions);
 
-        champions.clear();
-        champions.addAll(championListByRole.get(LolRole.MARKSMAN));
-        championListByLane.put("BOT", champions);
+        champions = new HashSet<>(championListByRole.get(LolRole.MARKSMAN));
+        championListByLane.put(BOT, champions);
 
-        champions.clear();
-        champions.addAll(championListByRole.get(LolRole.SUPPORT));
-        championListByLane.put("SUPPORT", champions);
+        champions = new HashSet<>(championListByRole.get(LolRole.SUPPORT));
+        championListByLane.put(SUPPORT, champions);
     }
 
     private void addRandomChampion(final String lane, final Set<String> champions) {
