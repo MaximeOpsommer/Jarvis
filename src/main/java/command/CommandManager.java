@@ -10,6 +10,7 @@ public class CommandManager {
     public CommandManager() {
         addCommand(new AutokickCommand());
         addCommand(new DecisionCommand());
+        addCommand(new HelpCommand(commands.values()));
         addCommand(new LolRandomCompCommand());
     }
 
